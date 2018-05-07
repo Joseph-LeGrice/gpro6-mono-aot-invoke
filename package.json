@@ -1,0 +1,25 @@
+{
+  "name": "mono-aot-invoke",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run compile && npm run package",
+    "compile": "npx tsc",
+    "package": "npx pkg dist/main.js --out-path out/ --debug"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/argparse": "^1.0.33",
+    "@types/execa": "^0.9.0",
+    "@types/fs-extra": "^5.0.2",
+    "pkg": "^4.3.1",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "argparse": "^1.0.10",
+    "execa": "^0.10.0",
+    "fs-extra": "^6.0.0"
+  }
+}
