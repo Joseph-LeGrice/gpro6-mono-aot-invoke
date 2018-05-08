@@ -49,6 +49,17 @@ export async function BuildMonoProject(monoProject: MonoBuildConfig, configFileP
     args.push(`-target:${monoProject.type}`);
     args.push(`-out:${outputPath}`);
 
+    const libPaths = new Array<string>();
+    for (let i=0; i<monoProject.libraries.length; i++) {
+        libPaths.push(path.resolve(configFilePath, monoProject.libraries[i]));
+        if (i < monoProject.libraries.length - 1) {
+            libPaths.push(',');
+        }
+    }
+    if (libPaths.length > 0) {
+        args.push(`-r:${libPaths.join('')}`);
+    }
+    
     const allFiles: Array<string> = new Array<string>();
     await getFilesRecursively(projectPath, allFiles);
 
@@ -57,7 +68,7 @@ export async function BuildMonoProject(monoProject: MonoBuildConfig, configFileP
         console.log(monoScriptPath);
         args.push(monoScriptPath);
     }
-    
+
     const exec = execa(MONO_COMPILER, args);
     exec.stdout.on('data', data => console.log(data.toString()));
     exec.stderr.on('data', data => console.log(data.toString()));

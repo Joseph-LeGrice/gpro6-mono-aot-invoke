@@ -9,10 +9,14 @@ parser.addArgument(["CONFIG_FILE"], { help: "Location of config file"});
 
 const args = parser.parseArgs();
 
-const jsonText = fs.readFileSync(args.CONFIG_FILE, { encoding: 'utf8' });
-const configuration = <Array<MonoBuildConfig>>JSON.parse(jsonText);
+main();
 
-const configFilePath = path.dirname(args.CONFIG_FILE);
-for (const monoProject of configuration) {
-    BuildMonoProject(monoProject, configFilePath);
+async function main() {
+    const jsonText = fs.readFileSync(args.CONFIG_FILE, { encoding: 'utf8' });
+    const configuration = <Array<MonoBuildConfig>>JSON.parse(jsonText);
+
+    const configFilePath = path.dirname(args.CONFIG_FILE);
+    for (const monoProject of configuration) {
+        await BuildMonoProject(monoProject, configFilePath);
+    }
 }
