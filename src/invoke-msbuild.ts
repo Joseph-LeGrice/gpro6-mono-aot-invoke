@@ -16,10 +16,14 @@ class MSBuildInvoker
         const args: string[] = [];
         args.push('/property:GenerateFullPaths=true');
         args.push('/t:Build');
-        args.push('cs-api/GPro.csproj');
+        args.push(config.projectFile);
 
-        await execa(this.msbuild, args);
-        console.log(`[InvokeMSBuild] ${config.projectFile} built.`);    
+        const task = execa(this.msbuild, args);
+        task.stdout.on('data', data => console.log(`[InvokeMSBuild] ${data.toString()}`));
+        task.stderr.on('data', data => console.log(`[InvokeMSBuild] ${data.toString()}`));
+        await task;
+
+        console.log(`[InvokeMSBuild] ${config.projectFile} complete.`);
     }
 }
 
