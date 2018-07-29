@@ -11,7 +11,7 @@ class MSBuildInvoker
 
     public async build(config: MSBuildConfig): Promise<void>
     {
-        console.log(`[InvokeMSBuild] Project File: ${config.projectFile}`);
+        console.log(`[InvokeMSBuild] [INFO] Project File: ${config.projectFile}`);
 
         const args: string[] = [];
         args.push('/property:GenerateFullPaths=true');
@@ -19,11 +19,11 @@ class MSBuildInvoker
         args.push(config.projectFile);
 
         const task = execa(this.msbuild, args);
-        task.stdout.on('data', data => console.log(`[InvokeMSBuild] ${data.toString()}`));
-        task.stderr.on('data', data => console.log(`[InvokeMSBuild] ${data.toString()}`));
+        task.stdout.on('data', data => console.log(`[InvokeMSBuild] [INFO] ${data.toString()}`));
+        task.stderr.on('data', data => console.log(`[InvokeMSBuild] [ERROR] ${data.toString()}`));
         await task;
 
-        console.log(`[InvokeMSBuild] ${config.projectFile} complete.`);
+        console.log(`[InvokeMSBuild] [INFO] ${config.projectFile} complete.`);
     }
 }
 
